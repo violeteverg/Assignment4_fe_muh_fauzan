@@ -1,21 +1,40 @@
-import Navbar from "@/components/navbar/Navbar";
-import { coursesData } from "@/utils/mock/courseDummy";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import CardCourse from "@/components/cardCourse/CardCourse";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProduct } from "@/services/getData";
+import Bodypage from "../_BodyPage/BodyPage";
 
 export default function CoursePage() {
+  const page = 1;
+  const { data, isLoading } = useQuery({
+    queryKey: ["products", page],
+    queryFn: () => getAllProduct(page),
+    refetchOnMount: true,
+  });
+
+  const courseData = data?.data || [];
+  const isHasData = courseData?.length !== 0;
+
   return (
     <>
-      <Navbar />
-      <div className='h-full bg-slate-400 p-4 flex flex-wrap gap-4'>
-        {coursesData.data.map((course) => (
-          <CardCourse
-            key={course.id}
-            id={course.id}
-            name={course.name}
-            price={course.price}
-          />
-        ))}
-      </div>
+      <Bodypage image='/bg-1.jpeg' text='Course' isHasData={isHasData}>
+        <div className='h-full  p-4 flex flex-wrap '>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            courseData.map((course: any) => (
+              <CardCourse
+                key={course.id}
+                id={course.id}
+                name={course.name}
+                price={course.price}
+              />
+            ))
+          )}
+        </div>
+      </Bodypage>
     </>
   );
 }

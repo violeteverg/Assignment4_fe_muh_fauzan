@@ -1,11 +1,13 @@
 // import Layout from "@/app/components/Layout";
+
 import Navbar from "@/components/navbar/Navbar";
-import CoursePage from "@/pages/_CoursePage/CoursePage";
+import DetailPage from "@/pages/_DetailPage/DetailPage";
 
 const page: React.FC = () => {
   return (
     <>
-      <Navbar /> <CoursePage />
+      <Navbar />
+      <DetailPage />
     </>
   );
 };
